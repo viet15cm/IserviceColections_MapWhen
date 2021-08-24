@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "StudentContextConnection": "Server=DESKTOP-OQFEFQ5;Database=Students;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+}

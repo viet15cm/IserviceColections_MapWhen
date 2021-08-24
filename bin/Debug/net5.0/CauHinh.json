@@ -1,0 +1,9 @@
+{
+  "TextOptions": {
+    "option_key1": "Iphone",
+    "option_key_2": {
+      "k1": "LapTop",
+      "k2": "Value2"
+    }
+  }
+}
