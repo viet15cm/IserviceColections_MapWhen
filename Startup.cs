@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IserviceColections_MapWhen.AppEndpoints;
 using IserviceColections_MapWhen.DBContextLayer;
 using IserviceColections_MapWhen.Middleware;
 using IserviceColections_MapWhen.Sevices;
@@ -35,7 +36,7 @@ namespace IserviceColections_MapWhen
             //services.AddSession();
             services.AddSingleton<OneMiddleware>();
             services.AddSingleton<AppDBContext>();
-            
+            services.AddSingleton<OneGetEndPoints>();
             services.AddDbContext<AppDBContext>(options =>
             options.UseSqlServer(_configuration.GetConnectionString("StudentContextConnection"))
             );
@@ -78,14 +79,22 @@ namespace IserviceColections_MapWhen
 
             });
             */
-            app.UseMiddleware<OneMiddleware>();
+            //app.UseMiddleware<OneMiddleware>();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
+                endpoints.MapMethods("/",new[] { "Get", "POST" }, async (context) =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    var oneGetEndPoints = context.RequestServices.GetService<OneGetEndPoints>();
+                    await oneGetEndPoints.InvokeAsync(context);
+
+                });
+                endpoints.MapGet("/Form", async (context) =>
+                {
+                    var oneGetEndPoints = context.RequestServices.GetService<OneGetEndPoints>();
+                    await oneGetEndPoints.DisPlayForm(context);
+
                 });
                 endpoints.MapGet("/ShowOptions", async (context) => {
 

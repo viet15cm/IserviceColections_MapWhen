@@ -38,8 +38,6 @@ namespace IserviceColections_MapWhen.Middleware
             _configuration = configuration;
             _serviceDescriptors = serviceDescriptors;
             _configurationBuilder = configurationBuilder;
-
-
         }
         
         public async Task  InvokeAsync(HttpContext context, RequestDelegate next)
@@ -59,10 +57,12 @@ namespace IserviceColections_MapWhen.Middleware
             var sb = new StringBuilder();
             
             var listStudents = await _appSeviceStudents.ReadStudents();
-            sb.Append(("Id".th() + "Name".th() + "Age".th()).tr());
+            sb.Append(("Id".th() + "Name".th() + "Age".th()) + "Options".tr());
             foreach (var item in listStudents)
             {
-                sb.Append((item.Id.ToString().td() + item.Name.ToString().td() + item.Age.ToString().td()).tr());
+                sb.Append((item.Id.ToString().td() + 
+                    item.Name.ToString().td() + 
+                    item.Age.ToString().td() + "Delete".a("/Admin/Cookies/Read", "btn btn-danger")).tr());
             }
 
             string info = ("Danh Sach Students ".HtmlTag("h2") + sb.ToString().table("table table-sm table-bordered")).HtmlTag("div", "container");
